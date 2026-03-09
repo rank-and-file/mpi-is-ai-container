@@ -18,26 +18,38 @@ bash "${SCRIPT_DIR}/build.sh"
 #    Config dirs (~/.claude, ~/.codex, ~/.gemini) are bound if they exist so
 #    that settings/API keys stored on disk are available inside the container.
 
+MARKER_START="# === ai-tools container aliases ==="
+MARKER_END="# === end ai-tools container aliases ==="
+
 BLOCK=$(cat <<'EOF'
 # === ai-tools container aliases ===
+bash-contained() {
+    local -a binds=(--bind "$PWD")
+    [[ -d "$HOME/.claude" ]] && binds+=(--bind "$HOME/.claude")
+    [[ -f "$HOME/.claude.json" ]] && binds+=(--bind "$HOME/.claude.json")
+    apptainer exec --nv --writable-tmpfs --contain "${binds[@]}" --pwd "$PWD" \
+        "/fast/${USER}/containers/ai-tools.sif" bash --login -i "$@"
+}
+
 claude-contained() {
     local -a binds=(--bind "$PWD")
     [[ -d "$HOME/.claude" ]] && binds+=(--bind "$HOME/.claude")
-    apptainer exec --nv --writable-tmpfs "${binds[@]}" --pwd "$PWD" \
+    [[ -f "$HOME/.claude.json" ]] && binds+=(--bind "$HOME/.claude.json")
+    apptainer exec --nv --writable-tmpfs --contain "${binds[@]}" --pwd "$PWD" \
         "/fast/${USER}/containers/ai-tools.sif" claude --dangerously-skip-permissions "$@"
 }
 
 codex-contained() {
     local -a binds=(--bind "$PWD")
     [[ -d "$HOME/.codex" ]] && binds+=(--bind "$HOME/.codex")
-    apptainer exec --nv --writable-tmpfs "${binds[@]}" --pwd "$PWD" \
+    apptainer exec --nv --writable-tmpfs --contain "${binds[@]}" --pwd "$PWD" \
         "/fast/${USER}/containers/ai-tools.sif" codex --yolo "$@"
 }
 
 gemini-contained() {
     local -a binds=(--bind "$PWD")
     [[ -d "$HOME/.gemini" ]] && binds+=(--bind "$HOME/.gemini")
-    apptainer exec --nv --writable-tmpfs "${binds[@]}" --pwd "$PWD" \
+    apptainer exec --nv --writable-tmpfs --contain "${binds[@]}" --pwd "$PWD" \
         "/fast/${USER}/containers/ai-tools.sif" gemini --yolo "$@"
 }
 # === end ai-tools container aliases ===
