@@ -11,6 +11,8 @@ bash install.sh
 
 It works only on the default shell (bash), not zsh.
 
+After installation, the commands can be called anywhere (also on the login node, etc.)
+
 ## Usage
 If you use the below commands, the agent will:
 - have full write access to the current working directory
