@@ -12,11 +12,13 @@ bash install.sh
 It works only on the default shell (bash), not zsh.
 
 ## Usage
-**The container gives full write access to the current working directory!**
-It gives read access only to all other directories.
-The AI tools below automatically include the --yolo / --dangerously-skip-permissions command line options.
+If you use the below commands, the agent will:
+- have full write access to the current working directory
+- have no access to the other directories
+- automatically accept all edits and call all commands (no approvals needed, uses `--yolo / --dangerously-skip-permissions`).
 
-You can call it like this:
+Only use it if you are sure about this :)
+
 ```bash
 # As a drop in replacement of claude
 claude-contained
