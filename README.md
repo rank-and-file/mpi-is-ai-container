@@ -15,7 +15,7 @@ After installation, the commands can be called anywhere.
 
 ## Usage
 If you use the below commands, the agent will:
-- have full write access to the current working directory
+- have full write access to the current working directory (and agent configurations)
 - have no access to the other directories
 - automatically accept all edits and call all commands (no approvals needed, uses `--yolo / --dangerously-skip-permissions`).
 
@@ -30,15 +30,13 @@ codex-contained
 
 # As a drop in replacement of gemini
 gemini-contained
+```
 
-# Interactive bash shell inside the container
-bash-contained
-
-# -wfast variants: same as above but with /fast/$USER mounted (read/write)
+If you want your agent to additionally have access to `/fast` (read/write), use:
+```
 claude-contained-wfast
 codex-contained-wfast
 gemini-contained-wfast
-bash-contained-wfast
 ```
 
 ## Uninstall
