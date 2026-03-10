@@ -11,7 +11,7 @@ sh install.sh
 
 Works in any POSIX shell (bash, zsh, fish, etc.).
 
-After installation, the commands can be called anywhere (also on the login node, etc.)
+After installation, the commands can be called anywhere.
 
 ## Usage
 If you use the below commands, the agent will:
