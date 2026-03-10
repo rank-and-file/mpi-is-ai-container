@@ -12,6 +12,10 @@ sh install.sh
 Works in any POSIX shell (bash, zsh, fish, etc.).
 
 After installation, the commands can be called anywhere.
+Though it is advisable to request an interactive node to run those AI tools. E.g. via
+```
+condor_submit_bid 25 -i -append request_cpus=8 -append request_memory=65536 -append +BypassLXCfs="true" -append "request_disk=4G"
+```
 
 ## Usage
 If you use the below commands, the agent will:
