@@ -1,0 +1,4 @@
+#!/bin/sh
+CONTAINER="/fast/${USER}/containers/ai-tools.sif"
+BINDS="--bind $PWD --bind $HOME/.gemini"
+exec apptainer exec --nv --writable-tmpfs --contain $BINDS --pwd "$PWD" "$CONTAINER" gemini --yolo "$@"

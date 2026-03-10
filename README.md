@@ -6,10 +6,10 @@ condor_submit_bid 25 -i -append request_cpus=8 -append request_memory=65536 -app
 ```
 Inside this job install the container:
 ```
-bash install.sh
+sh install.sh
 ```
 
-It works only on the default shell (bash), not zsh.
+Works in any POSIX shell (bash, zsh, fish, etc.).
 
 After installation, the commands can be called anywhere (also on the login node, etc.)
 
@@ -30,4 +30,19 @@ codex-contained
 
 # As a drop in replacement of gemini
 gemini-contained
+
+# Interactive bash shell inside the container
+bash-contained
+
+# -wfast variants: same as above but with /fast/$USER mounted (read/write)
+claude-contained-wfast
+codex-contained-wfast
+gemini-contained-wfast
+bash-contained-wfast
 ```
+
+## Uninstall
+```bash
+sh uninstall.sh
+```
+This removes the scripts from `~/.local/bin/` and cleans up old bashrc aliases if present. The container image (~15GB) is not deleted automatically; the script prints its path for manual removal.

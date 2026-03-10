@@ -1,0 +1,4 @@
+#!/bin/sh
+CONTAINER="/fast/${USER}/containers/ai-tools.sif"
+BINDS="--bind $PWD --bind $HOME/.claude --bind $HOME/.claude.json"
+exec apptainer exec --nv --writable-tmpfs --contain $BINDS --pwd "$PWD" "$CONTAINER" bash --login -i "$@"
