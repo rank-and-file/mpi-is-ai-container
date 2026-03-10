@@ -33,7 +33,7 @@ gemini-contained
 ```
 
 If you want your agent to additionally have access to `/fast` (read/write), use:
-```
+```bash
 claude-contained-wfast
 codex-contained-wfast
 gemini-contained-wfast
