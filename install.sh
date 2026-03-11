@@ -7,9 +7,14 @@ SCRIPTS="bash-contained bash-contained-wfast claude-contained claude-contained-w
 MARKER_START="# === ai-tools container aliases ==="
 MARKER_END="# === end ai-tools container aliases ==="
 
-# 1) Build the container
-echo "Building container..."
-sh "$SCRIPT_DIR/build.sh"
+# 1) Build the container (skip if already present)
+CONTAINER="/fast/${USER}/containers/ai-tools.sif"
+if [ -f "$CONTAINER" ]; then
+    echo "Container already exists: $CONTAINER (skipping build)"
+else
+    echo "Building container..."
+    sh "$SCRIPT_DIR/build.sh"
+fi
 
 # 2) Remove old bashrc aliases if present (migration from v1)
 if [ -f "$HOME/.bashrc" ] && grep -qF "$MARKER_START" "$HOME/.bashrc"; then
