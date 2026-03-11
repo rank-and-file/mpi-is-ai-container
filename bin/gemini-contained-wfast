@@ -1,4 +1,13 @@
 #!/bin/sh
+if [ -z "${_CONDOR_JOB_AD}" ]; then
+    echo "Error: gemini should not be run on the login node directly." >&2
+    echo "Login nodes have limited resources and are shared by all users." >&2
+    echo "These AI tools are resource-intensive and must run on a compute node." >&2
+    echo "" >&2
+    echo "Request an interactive session first:" >&2
+    echo "  condor_submit_bid 25 -i -append request_cpus=8 -append request_memory=65536 -append +BypassLXCfs=\"true\" -append \"request_disk=4G\"" >&2
+    exit 1
+fi
 CONTAINER="/fast/${USER}/containers/ai-tools.sif"
 TMPDIR_HOST="/fast/${USER}/ai-container-tmp"
 mkdir -p "$TMPDIR_HOST"
