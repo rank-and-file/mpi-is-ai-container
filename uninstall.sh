@@ -21,7 +21,14 @@ if [ -f "$HOME/.bashrc" ] && grep -qF "$MARKER_START" "$HOME/.bashrc"; then
     echo "Removed old bash aliases from ~/.bashrc"
 fi
 
-# 3) Print container paths for manual deletion
+# 3) Remove tmp directory
+TMPDIR_HOST="/fast/${USER}/ai-container-tmp"
+if [ -d "$TMPDIR_HOST" ]; then
+    rm -rf "$TMPDIR_HOST"
+    echo "Removed $TMPDIR_HOST"
+fi
+
+# 4) Print container paths for manual deletion
 echo ""
 echo "Done. Container images were NOT deleted. Remove them manually if desired:"
 echo "  rm /fast/${USER}/containers/ai-tools.sif"
