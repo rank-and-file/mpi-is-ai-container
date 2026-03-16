@@ -14,7 +14,7 @@ Works in any POSIX shell (bash, zsh, fish, etc.).
 After installation, the commands can be called in an interactive node.
 A suitable node can be requested through
 ```
-condor_submit_bid 25 -i -append request_cpus=8 -append request_memory=65536 -append +BypassLXCfs="true" -append "request_disk=4G"
+condor_submit_bid 25 -i -append request_cpus=8 -append request_memory=65536 -append +BypassLXCfs="true" -append "request_disk=3G"
 ```
 
 ## Usage
