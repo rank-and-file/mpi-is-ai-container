@@ -11,5 +11,5 @@ fi
 CONTAINER="/fast/${USER}/containers/ai-tools.sif"
 TMPDIR_HOST="/fast/${USER}/ai-container-tmp"
 mkdir -p "$TMPDIR_HOST"
-BINDS="--bind $PWD --bind $HOME/.codex --bind /fast --bind ${TMPDIR_HOST}:/tmp"
+BINDS="--bind $PWD --bind $HOME/.codex --bind $HOME/.config/gh --bind $HOME/.local/bin --bind $HOME/.ssh --bind /fast --bind ${TMPDIR_HOST}:/tmp"
 exec apptainer exec --nv --writable-tmpfs --contain $BINDS --pwd "$PWD" "$CONTAINER" codex --yolo "$@"
