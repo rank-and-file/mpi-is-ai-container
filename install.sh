@@ -3,7 +3,7 @@
 set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SCRIPTS="bash-contained bash-contained-wfast claude-contained claude-contained-wfast codex-contained codex-contained-wfast gemini-contained gemini-contained-wfast"
+SCRIPTS="bash-contained bash-contained-wfast claude-contained claude-contained-wfast claude-contained-wfast-submit codex-contained codex-contained-wfast gemini-contained gemini-contained-wfast"
 MARKER_START="# === ai-tools container aliases ==="
 MARKER_END="# === end ai-tools container aliases ==="
 
