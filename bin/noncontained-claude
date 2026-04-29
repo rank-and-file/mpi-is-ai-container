@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z "${_CONDOR_JOB_AD}" ]; then
-    echo "Error: codex should not be run on the login node directly." >&2
+    echo "Error: claude should not be run on the login node directly." >&2
     echo "Login nodes have limited resources and are shared by all users." >&2
     echo "These AI tools are resource-intensive and must run on a compute node." >&2
     echo "" >&2
@@ -11,6 +11,6 @@ fi
 CONTAINER="/fast/${USER}/containers/ai-tools.sif"
 TMPDIR_HOST="/fast/${USER}/ai-container-tmp"
 mkdir -p "$TMPDIR_HOST"
-BINDS="--bind $PWD --bind $HOME/.codex --bind $HOME/.config/gh --bind $HOME/.local/bin --bind $HOME/.ssh --bind ${TMPDIR_HOST}:/tmp"
+BINDS="--bind $HOME --bind $PWD --bind ${TMPDIR_HOST}:/tmp"
 unset APPTAINER_BIND APPTAINER_BINDPATH SINGULARITY_BIND SINGULARITY_BINDPATH
-exec apptainer exec --nv --writable-tmpfs --contain $BINDS --pwd "$PWD" "$CONTAINER" codex --yolo "$@"
+exec apptainer exec --nv --writable-tmpfs --contain $BINDS --pwd "$PWD" "$CONTAINER" claude --dangerously-skip-permissions "$@"

@@ -12,4 +12,5 @@ CONTAINER="/fast/${USER}/containers/ai-tools.sif"
 TMPDIR_HOST="/fast/${USER}/ai-container-tmp"
 mkdir -p "$TMPDIR_HOST"
 BINDS="--bind $PWD --bind $HOME/.claude --bind $HOME/.config/gh --bind $HOME/.local/bin --bind $HOME/.ssh --bind $HOME/.claude.json --bind /fast --bind ${TMPDIR_HOST}:/tmp"
+unset APPTAINER_BIND APPTAINER_BINDPATH SINGULARITY_BIND SINGULARITY_BINDPATH
 exec apptainer exec --nv --writable-tmpfs --contain $BINDS --pwd "$PWD" "$CONTAINER" claude --dangerously-skip-permissions "$@"

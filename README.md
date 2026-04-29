@@ -43,6 +43,12 @@ codex-contained-wfast
 gemini-contained-wfast
 ```
 
+If you want your agent to additionally submit HTCondor jobs from inside the container, use:
+```bash
+claude-contained-wfast-submit
+codex-contained-wfast-submit
+```
+
 ## Uninstall
 ```bash
 sh uninstall.sh

@@ -1,0 +1,13 @@
+executable = build.sh
+arguments  = --force
+output     = build-logs/build.out
+error      = build-logs/build.err
+log        = build-logs/build.log
+getenv     = True
+request_cpus   = 8
+request_memory = 32768
+request_disk   = 100G
+request_gpus   = 1
+requirements = (TARGET.CUDAGlobalMemoryMb > 20000) && (TARGET.CUDACapability > 7)
++BypassLXCfs = "true"
+queue
