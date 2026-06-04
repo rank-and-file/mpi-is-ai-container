@@ -13,6 +13,20 @@ TMPDIR_HOST="/fast/${USER}/ai-container-tmp"
 mkdir -p "$TMPDIR_HOST"
 BINDS="--bind $PWD --bind $HOME/.codex --bind $HOME/.config/gh --bind $HOME/.local/bin --bind $HOME/.ssh --bind ${TMPDIR_HOST}:/tmp"
 MODULE_BINDS="--bind /etc/profile.d/modules.sh --bind /usr/share/modules --bind /usr/bin/modulecmd --bind /etc/environment-modules --bind /is/software/modules"
-CONDOR_BINDS="--bind /usr/local/bin/condor_submit_bid --bind /usr/local/bin/condor_submit:/usr/local/bin/condor_submit --bind /usr/local/bin/condor_change_bid --bind /usr/bin/condor_submit --bind /usr/bin/condor_q --bind /usr/bin/condor_rm --bind /lib/libcondor_utils_10_0_9.so --bind /lib/libclassad.so.15 --bind /etc/condor --bind /etc/resolv.conf --bind /etc/hosts --bind /etc/nsswitch.conf --bind /var/run/nscd/socket --bind /mnt/condor_auth --bind $HOME/.condor --bind /fast --bind /lustre/fast/fast"
+# Condor client tools exposed inside the container. Each is bound 1:1 from the host;
+# symlinked multiplexers (condor_hold/release/vacate_job/...) are dereferenced to their
+# real binary so the argv[0]-based dispatch still works inside the container.
+CONDOR_TOOLS="condor_submit condor_submit_dag condor_dagman condor_q condor_rm \
+condor_hold condor_release condor_continue condor_suspend condor_vacate condor_vacate_job \
+condor_reschedule condor_prio condor_qedit condor_status condor_history condor_wait \
+condor_check_userlogs condor_userlog condor_tail condor_transfer_data condor_ssh_to_job \
+condor_config_val condor_version condor_ping"
+CONDOR_BINDS="--bind /usr/local/bin/condor_submit_bid --bind /usr/local/bin/condor_submit:/usr/local/bin/condor_submit --bind /usr/local/bin/condor_change_bid"
+for _t in $CONDOR_TOOLS; do
+    _src="/usr/bin/$_t"
+    [ -e "$_src" ] || continue
+    CONDOR_BINDS="$CONDOR_BINDS --bind $(readlink -f "$_src"):/usr/bin/$_t"
+done
+CONDOR_BINDS="$CONDOR_BINDS --bind /lib/libcondor_utils_10_0_9.so --bind /lib/libclassad.so.15 --bind /etc/condor --bind /etc/resolv.conf --bind /etc/hosts --bind /etc/nsswitch.conf --bind /var/run/nscd/socket --bind /mnt/condor_auth --bind $HOME/.condor --bind /fast --bind /lustre/fast/fast"
 unset APPTAINER_BIND APPTAINER_BINDPATH SINGULARITY_BIND SINGULARITY_BINDPATH
 exec apptainer exec --nv --writable-tmpfs --contain $BINDS $CONDOR_BINDS $MODULE_BINDS --pwd "$PWD" "$CONTAINER" codex --yolo "$@"
